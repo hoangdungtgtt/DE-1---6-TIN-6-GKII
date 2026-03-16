@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trắc Nghiệm Tin Học 7 - TH&THCS Thái Giang</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 18px;
+            opacity: 0.9;
+        }
+
+        .school-info {
+            background: #f8f9fa;
+            padding: 15px 30px;
+            border-bottom: 2px solid #e9ecef;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .school-name {
+            font-size: 18px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .teacher-name {
+            font-size: 16px;
+            color: #7f8c8d;
+        }
+
+        .copyright {
+            font-size: 14px;
+            color: #95a5a6;
+            font-style: italic;
+        }
+
+        .exam-selector {
+            padding: 20px 30px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #dee2e6;
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .exam-selector select {
+            padding: 12px 20px;
+            font-size: 16px;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            width: 300px;
+            cursor: pointer;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .exam-selector select:hover {
+            border-color: #3498db;
+        }
+
+        .exam-stats {
+            display: flex;
+            gap: 20px;
+            padding: 15px 30px;
+            background: #e8f4f8;
+            border-radius: 10px;
+            margin: 0 30px 20px;
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .stat-label {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .stat-value {
+            background: #3498db;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+
+        .question-panel {
+            padding: 20px 30px;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin: 20px 0 15px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #3498db;
+        }
+
+        .question-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-left: 4px solid #3498db;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .question-text {
+            font-size: 16px;
+            font-weight: 500;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 10px;
+        }
+
+        .option {
+            display: flex;
+            align-items: center;
+            padding: 10px 15px;
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .option:hover {
+            border-color: #3498db;
+            background: #ebf5ff;
+        }
+
+        .option input[type="radio"] {
+            margin-right: 10px;
+            cursor: pointer;
+        }
+
+        .option.selected {
+            background: #3498db;
+            color: white;
+            border-color: #3498db;
+        }
+
+        .option.selected input[type="radio"] {
+            accent-color: white;
+        }
+
+        .true-false-options {
+            display: flex;
+            gap: 20px;
+        }
+
+        .tf-option {
+            flex: 1;
+        }
+
+        .fill-input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 15px;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .fill-input:focus {
+            border-color: #3498db;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+        }
+
+        .action-buttons {
+            padding: 30px;
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            background: #f8f9fa;
+            border-top: 1px solid #dee2e6;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            font-size: 16px;
+            font-weight: 600;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-primary {
+            background: #3498db;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
+        }
+
+        .btn-success {
+            background: #27ae60;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #229954;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(39, 174, 96, 0.4);
+        }
+
+        .btn-info {
+            background: #f39c12;
+            color: white;
+        }
+
+        .btn-info:hover {
+            background: #e67e22;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(243, 156, 18, 0.4);
+        }
+
+        .btn-warning {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .btn-warning:hover {
+            background: #c0392b;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(231, 76, 60, 0.4);
+        }
+
+        .result-panel {
+            margin: 20px 30px 30px;
+            padding: 25px;
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+            border-radius: 15px;
+            color: white;
+        }
+
+        .score-display {
+            text-align: center;
+        }
+
+        .score-number {
+            font-size: 60px;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        .score-detail {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .detail-item {
+            text-align: center;
+        }
+
+        .detail-label {
+            font-size: 14px;
+            opacity: 0.9;
+            margin-bottom: 5px;
+        }
+
+        .detail-value {
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+        .answers-panel {
+            padding: 0 30px 30px;
+        }
+
+        .answer-item {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-left: 4px solid #27ae60;
+        }
+
+        .answer-item.incorrect {
+            border-left-color: #e74c3c;
+        }
+
+        .answer-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .user-answer {
+            color: #2c3e50;
+        }
+
+        .correct-answer {
+            color: #27ae60;
+        }
+
+        .incorrect .correct-answer {
+            color: #e74c3c;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .options {
+                grid-template-columns: 1fr;
+            }
+            
+            .true-false-options {
+                flex-direction: column;
+            }
+            
+            .exam-selector select {
+                width: 100%;
+            }
+            
+            .school-info {
+                flex-direction: column;
+                gap: 10px;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>HỆ THỐNG TRẮC NGHIỆM TIN HỌC 7</h1>
+            <p>TRƯỜNG TH&THCS THÁI GIANG</p>
+        </div>
+
+        <div class="school-info">
+            <div class="school-name">Trường TH&THCS Thái Giang</div>
+            <div class="teacher-name">GV: Hoàng Anh Dũng</div>
+            <div class="copyright">Bản quyền của GV: Hoàng Anh Dũng</div>
+        </div>
+
+        <div class="exam-selector">
+            <select id="examSelect">
+                <option value="0">ĐỀ 1</option>
+                <option value="1">ĐỀ 2</option>
+                <option value="2">ĐỀ 3</option>
+                <option value="3">ĐỀ 4</option>
+                <option value="4">ĐỀ 5</option>
+                <option value="5">ĐỀ 6</option>
+            </select>
+            <div style="margin-left: auto; color: #7f8c8d;">
+                <span>📊 24 câu / đề</span>
+            </div>
+        </div>
+
+        <div class="exam-stats">
+            <div class="stat-item">
+                <span class="stat-label">Tổng số câu:</span>
+                <span class="stat-value" id="totalQuestions">24</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">Đã làm:</span>
+                <span class="stat-value" id="answeredCount">0</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">Còn lại:</span>
+                <span class="stat-value" id="remainingCount">24</span>
+            </div>
+        </div>
+
+        <div id="questionsContainer" class="question-panel"></div>
+
+        <div class="action-buttons">
+            <button class="btn btn-primary" onclick="submitExam()">📝 Nộp bài</button>
+            <button class="btn btn-success" onclick="showAnswers()">🔍 Xem đáp án</button>
+            <button class="btn btn-info" onclick="resetExam()">🔄 Làm lại</button>
+            <button class="btn btn-warning" onclick="clearAll()">🗑️ Xóa hết</button>
+        </div>
+
+        <div id="resultPanel" class="result-panel hidden">
+            <div class="score-display">
+                <div class="score-number" id="score">0/24</div>
+                <div class="score-detail">
+                    <div class="detail-item">
+                        <div class="detail-label">Đúng</div>
+                        <div class="detail-value" id="correctCount">0</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Sai</div>
+                        <div class="detail-value" id="wrongCount">0</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Chưa làm</div>
+                        <div class="detail-value" id="unansweredCount">24</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="answersPanel" class="answers-panel hidden"></div>
+    </div>
+
+    <script>
+        // Dữ liệu đề thi từ đề 1 đến đề 6
+        const examData = [
+            // ĐỀ 1
+            {
+                questions: [
+                    // Phần I - Chọn đáp án đúng nhất (Câu 1-12)
+                    { text: "Câu 1: Sơ đồ tư duy dùng để làm gì?", options: ["A. Vẽ tranh trang trí", "B. Ghi chép và hệ thống hóa thông tin", "C. Soạn thảo văn bản", "D. Tính toán số liệu"], correct: 1, type: 'multiple' },
+                    { text: "Câu 2: Nút lệnh dùng để in đậm là:", options: ["A. I", "B. B", "C. U", "D. A"], correct: 1, type: 'multiple' },
+                    { text: "Câu 3: Vì sao cần định dạng văn bản?", options: ["A. Làm file nặng hơn", "B. Dễ đọc và đẹp hơn", "C. Xóa nội dung", "D. Tăng số trang"], correct: 1, type: 'multiple' },
+                    { text: "Câu 4: Để căn giữa tiêu đề, em cần:", options: ["A. Chọn đoạn → Nhấn căn giữa", "B. Nhấn B", "C. Nhấn I", "D. Chọn màu"], correct: 0, type: 'multiple' },
+                    { text: "Câu 5: Bảng gồm:", options: ["A. Dòng và cột", "B. Hình và chữ", "C. Trang và lề", "D. Màu và chữ"], correct: 0, type: 'multiple' },
+                    { text: "Câu 6: Bảng giúp trình bày thông tin:", options: ["A. Lộn xộn", "B. Rõ ràng", "C. Khó đọc", "D. Dài hơn"], correct: 1, type: 'multiple' },
+                    { text: "Câu 7: Ctrl + F dùng để:", options: ["A. Tìm kiếm", "B. Lưu", "C. In", "D. Đóng"], correct: 0, type: 'multiple' },
+                    { text: "Câu 8: Ctrl + H dùng để:", options: ["A. In", "B. Thay thế", "C. Lưu", "D. Xóa"], correct: 1, type: 'multiple' },
+                    { text: "Câu 9: Replace tiện lợi vì:", options: ["A. Sửa nhanh nhiều chỗ", "B. Tốn thời gian", "C. Xóa file", "D. Tăng size"], correct: 0, type: 'multiple' },
+                    { text: "Câu 10: Sổ lưu niệm thường có:", options: ["A. Tiêu đề", "B. Lời chúc", "C. Hình ảnh", "D. Cả A,B,C"], correct: 3, type: 'multiple' },
+                    { text: "Câu 11: Sổ lưu niệm đẹp khi:", options: ["A. Thống nhất font", "B. Mỗi đoạn một font", "C. Không căn lề", "D. Không ảnh"], correct: 0, type: 'multiple' },
+                    { text: "Câu 12: Hoàn thiện trang lưu niệm cần:", options: ["A. Tiêu đề căn giữa", "B. Nội dung", "C. Ảnh", "D. Tất cả"], correct: 3, type: 'multiple' },
+                    
+                    // Phần II - Đúng/Sai (Câu 13-20)
+                    { text: "Câu 13: Sử dụng từ khóa thay vì câu dài giúp sơ đồ tư duy dễ nhớ hơn.", options: ["A. Đúng", "B. Sai"], correct: 0, type: 'tf' },
+                    { text: "Câu 14: Nút lệnh B dùng để in đậm văn bản.", options: ["A. Đúng", "B. Sai"], correct: 0, type: 'tf' },
+                    { text: "Câu 15: Để làm nổi bật tiêu đề, có thể tăng cỡ chữ và in đậm.", options: ["A. Đúng", "B. Sai"], correct: 0, type: 'tf' },
+                    { text: "Câu 16: Bảng gồm các hàng và các cột.", options: ["A. Đúng", "B. Sai"], correct: 0, type: 'tf' },
+                    { text: "Câu 17: Khi cần so sánh số liệu giữa các đối tượng, nên trình bày bằng bảng.", options: ["A. Đúng", "B. Sai"], correct: 0, type: 'tf' },
+                    { text: "Câu 18: Ctrl + F là tổ hợp phím dùng để tìm kiếm.", options: ["A. Đúng", "B. Sai"], correct: 0, type: 'tf' },
+                    { text: "Câu 19: Sổ lưu niệm thường có tiêu đề, nội dung và hình ảnh minh họa.", options: ["A. Đúng", "B. Sai"], correct: 0, type: 'tf' },
+                    { text: "Câu 20: Khi hoàn thiện sổ lưu niệm, cần kiểm tra lại lỗi chính tả và định dạng trước khi in.", options: ["A. Đúng", "B. Sai"], correct: 0, type: 'tf' },
+                    
+                    // Phần III - Điền khuyết (Câu 21-24)
+                    { text: "Câu 21: Sơ đồ tư duy là công cụ giúp ghi chép và hệ thống hóa ................ một cách trực quan.", correct: "thông tin", type: 'fill' },
+                    { text: "Câu 22: Muốn làm nổi bật tiêu đề, em có thể tăng ................ chữ và sử dụng in đậm.", correct: "cỡ", type: 'fill' },
+                    { text: "Câu 23: Khi cần so sánh số liệu giữa nhiều đối tượng, nên trình bày thông tin dưới dạng ................ .", correct: "bảng", type: 'fill' },
+                    { text: "Câu 24: Một trang sổ lưu niệm thường có ................ và nội dung chính.", correct: "tiêu đề", type: 'fill' }
+                ]
+            },
+            // ĐỀ 2
+            {
+                questions: [
+                    // Phần I - Chọn đáp án đúng nhất (Câu 1-12)
+                    { text: "Câu 1: Chủ đề chính của sơ đồ tư duy thường đặt ở đâu?", options: ["A. Bên trái", "B. Bên phải", "C. Trung tâm", "D. Góc trên"], correct: 2, type: 'multiple' },
+                    { text: "Câu 2: Lệnh căn giữa có biểu tượng:", options: ["A. Các dòng lệch trái", "B. Các dòng lệch phải", "C. Các dòng nằm giữa", "D. Hai mũi tên"], correct: 2, type: 'multiple' },
+                    { text: "Câu 3: Định dạng kí tự khác định dạng đoạn ở chỗ:", options: ["A. Không có gì khác", "B. Một cái áp dụng cho chữ, một cái áp dụng cho cả đoạn", "C. Cùng áp dụng cho toàn văn bản", "D. Cùng dùng để căn lề"], correct: 1, type: 'multiple' },
+                    { text: "Câu 4: Muốn làm nổi bật tiêu đề nên:", options: ["A. Giảm cỡ chữ", "B. In nghiêng", "C. Tăng cỡ chữ và in đậm", "D. Đổi lề"], correct: 2, type: 'multiple' },
+                    { text: "Câu 5: Ô là giao điểm của:", options: ["A. Hai hàng", "B. Hai cột", "C. Hàng và cột", "D. Trang và lề"], correct: 2, type: 'multiple' },
+                    { text: "Câu 6: Khi cần so sánh số liệu nên dùng:", options: ["A. Đoạn văn", "B. Bảng", "C. Hình tròn", "D. Trang trắng"], correct: 1, type: 'multiple' },
+                    { text: "Câu 7: Find nghĩa là:", options: ["A. Lưu", "B. Tìm", "C. Đổi", "D. Xóa"], correct: 1, type: 'multiple' },
+                    { text: "Câu 8: Replace nghĩa là:", options: ["A. Tìm", "B. Thay thế", "C. Đóng", "D. Mở"], correct: 1, type: 'multiple' },
+                    { text: "Câu 9: Nếu thay thế sai từ sẽ:", options: ["A. Văn bản sai nội dung", "B. Đẹp hơn", "C. Không đổi", "D. Nhỏ hơn"], correct: 0, type: 'multiple' },
+                    { text: "Câu 10: Chèn ảnh vào văn bản dùng thẻ:", options: ["A. Home", "B. Insert", "C. View", "D. Layout"], correct: 1, type: 'multiple' },
+                    { text: "Câu 11: Kết hợp bảng và hình giúp:", options: ["A. Rõ ràng hơn", "B. Rối", "C. Nặng file", "D. Sai"], correct: 0, type: 'multiple' },
+                    { text: "Câu 12: Muốn sửa lỗi tên lớp nhiều lần nên:", options: ["A. Replace", "B. Gõ lại", "C. Xóa", "D. In"], correct: 0, type: 'multiple' },
+                    
+                    // Phần II - Đúng/Sai (Câu 13-20)
+                    { text: "Câu 13: Các nhánh phụ có thể nối trực tiếp từ chủ đề trung tâm mà không cần qua nhánh chính.", options: ["A. Đúng", "B. Sai"], correct: 1, type: 'tf' },
+                    { text: "Câu 14: Nút lệnh I dùng để gạch chân chữ.", options: ["A. Đúng", "B. Sai"], correct: 1, type: 'tf' },
+                    { text: "Câu 15: Để đổi màu một từ, không cần chọn từ đó trước.", options: ["A. Đúng", "B. Sai"], correct: 1, type: 'tf' },
+                    { text: "Câu 16: Ô là giao điểm của hai cột.", options: ["A. Đúng", "B. Sai"], correct: 1, type: 'tf' },
+                    { text: "Câu 17: Trình bày một câu văn ngắn bằng bảng luôn rõ ràng hơn đoạn văn.", options: ["A. Đúng", "B. Sai"], correct: 1, type: 'tf' },
+                    { text: "Câu 18: Ctrl + H dùng để thay thế.", options: ["A. Đúng", "B. Sai"], correct: 0, type: 'tf' },
+                    { text: "Câu 19: Muốn chèn hình ảnh ta chọn thẻ Home.", options: ["A. Đúng", "B. Sai"], correct: 1, type: 'tf' },
+                    { text: "Câu 20: Nếu tên lớp sai nhiều lần, nên sửa từng chỗ bằng tay.", options: ["A. Đúng", "B. Sai"], correct: 1, type: 'tf' },
+                    
+                    // Phần III - Điền khuyết (Câu 21-24)
+                    { text: "Câu 21: Trong sơ đồ tư duy, chủ đề chính thường được đặt ở vị trí ................ của trang giấy.", correct: "trung tâm", type: 'fill' },
+                    { text: "Câu 22: Trước khi thay đổi phông chữ cho một đoạn văn, cần phải ................ đoạn văn đó.", correct: "chọn", type: 'fill' },
+                    { text: "Câu 23: Gộp ô thường được sử dụng để tạo ô ................ cho bảng.", correct: "tiêu đề", type: 'fill' },
+                    { text: "Câu 24: Muốn chèn hình ảnh vào văn bản, ta chọn thẻ ................ .", correct: "Insert", type: 'fill' }
+                ]
+            },
+            // ĐỀ 3
+            {
+                questions: [
+                    // Phần I - Chọn đáp án đúng nhất (Câu 1-12)
+                    { text: "Câu 1: Trong sơ đồ tư duy, nhánh chính xuất phát từ đâu?", options: ["A. Nhánh phụ", "B. Chủ đề trung tâm", "C. Hình ảnh minh họa", "D. Đoạn văn"], correct: 1, type: 'multiple' },
+                    { text: "Câu 2: Thay đổi kiểu chữ là thay đổi:", options: ["A. Cỡ chữ", "B. Phông chữ", "C. Màu nền", "D. Lề trang"], correct: 1, type: 'multiple' },
+                    { text: "Câu 3: Tiêu đề nên căn giữa vì:", options: ["A. Đỡ tốn giấy", "B. Dễ đọc", "C. Tạo sự nổi bật", "D. Tăng dung lượng"], correct: 2, type: 'multiple' },
+                    { text: "Câu 4: Để đổi font chữ, em phải:", options: ["A. Chọn văn bản → chọn font", "B. Nhấn Ctrl", "C. Nhấn Enter", "D. Chọn lề"], correct: 0, type: 'multiple' },
+                    { text: "Câu 5: Để chèn bảng ta vào thẻ:", options: ["A. Home", "B. Insert", "C. View", "D. Design"], correct: 1, type: 'multiple' },
+                    { text: "Câu 6: Gộp ô tiêu đề giúp:", options: ["A. Mất dữ liệu", "B. Tiêu đề nổi bật", "C. Giảm số hàng", "D. Xóa bảng"], correct: 1, type: 'multiple' },
+                    { text: "Câu 7: Find giúp:", options: ["A. Tìm từ trong văn bản", "B. Xóa", "C. In", "D. Vẽ"], correct: 0, type: 'multiple' },
+                    { text: "Câu 8: Replace dùng khi:", options: ["A. Sửa nhiều chỗ giống nhau", "B. Viết mới", "C. In", "D. Gộp bảng"], correct: 0, type: 'multiple' },
+                    { text: "Câu 9: Tìm kiếm giúp:", options: ["A. Xác định vị trí từ", "B. Xóa bảng", "C. Đổi màu", "D. In"], correct: 0, type: 'multiple' },
+                    { text: "Câu 10: Để làm tiêu đề nổi bật nên:", options: ["A. In đậm", "B. Thu nhỏ", "C. Xóa", "D. Gộp"], correct: 0, type: 'multiple' },
+                    { text: "Câu 11: Định dạng giúp sản phẩm:", options: ["A. Chuyên nghiệp hơn", "B. Xấu", "C. Sai", "D. Dài"], correct: 0, type: 'multiple' },
+                    { text: "Câu 12: Để bảng cân đối cần:", options: ["A. Điều chỉnh cột", "B. Xóa", "C. In", "D. Đóng"], correct: 0, type: 'multiple' },
+                    
+                    // Phần II - Đúng/Sai (Câu 13-20)
+                    { text: "Câu 13: Mỗi nhánh chính nên dùng màu khác nhau để dễ phân biệt.", options: ["A. Đúng", "B. Sai"], correct: 0, type: 'tf' },
+                    { text: "Câu 14: Thay đổi phông chữ là thao tác định dạng kí tự.", options: ["A. Đúng", "B. Sai"], correct: 0, type: 'tf' },
+                    { text: "Câu 15: Muốn căn giữa tiêu đề, phải chọn dòng tiêu đề rồi dùng lệnh căn giữa.", options: ["A. Đúng", "B. Sai"], correct: 0, type: 'tf' },
+                    { text: "Câu 16: Muốn chèn bảng ta chọn thẻ Insert.", options: ["A. Đúng", "B. Sai"], correct: 0, type: 'tf' },
+                    { text: "Câu 17: Điều chỉnh độ rộng cột giúp bảng cân đối hơn.", options: ["A. Đúng", "B. Sai"], correct: 0, type: 'tf' },
+                    { text: "Câu 18: Replace chỉ có chức năng tìm kiếm, không thay thế được.", options: ["A. Đúng", "B. Sai"], correct: 1, type: 'tf' },
+                    { text: "Câu 19: Định dạng giúp văn bản đẹp và dễ đọc hơn.", options: ["A. Đúng", "B. Sai"], correct: 0, type: 'tf' },
+                    { text: "Câu 20: Có thể kết hợp bảng và hình ảnh trong một trang lưu niệm.", options: ["A. Đúng", "B. Sai"], correct: 0, type: 'tf' },
+                    
+                    // Phần III - Điền khuyết (Câu 21-24)
+                    { text: "Câu 21: Các nhánh chính trong sơ đồ tư duy xuất phát từ ................ trung tâm.", correct: "chủ đề", type: 'fill' },
+                    { text: "Câu 22: Để văn bản thẳng hàng cả hai bên lề, ta sử dụng lệnh căn ................ .", correct: "đều", type: 'fill' },
+                    { text: "Câu 23: Điều chỉnh độ rộng cột giúp bảng trình bày ................ và dễ đọc hơn", correct: "cân đối", type: 'fill' },
+                    { text: "Câu 24: Định dạng văn bản giúp sản phẩm trình bày đẹp và dễ ................ hơn", correct: "đọc", type: 'fill' }
+                ]
+            },
+            // ĐỀ 4
+            {
+                questions: [
+                    // Phần I - Chọn đáp án đúng nhất (Câu 1-12)
+                    { text: "Câu 1: Nội dung trên các nhánh nên viết dưới dạng:", options: ["A. Câu dài", "B. Đoạn văn", "C. Từ khóa ngắn gọn", "D. Công thức"], correct: 2, type: 'multiple' },
+                    { text: "Câu 2: Để thay đổi cỡ chữ ta chọn:", options: ["A. Font", "B. Size", "C. Paragraph", "D. Layout"], correct: 1, type: 'multiple' },
+                    { text: "Câu 3: In đậm thường dùng để:", options: ["A. Làm mờ chữ", "B. Nhấn mạnh nội dung", "C. Xóa chữ", "D. Thu nhỏ chữ"], correct: 1, type: 'multiple' },
+                    { text: "Câu 4: Khi đoạn văn bị lệch phải, cần dùng:", options: ["A. Căn trái", "B. Căn giữa", "C. In đậm", "D. Đổi màu"], correct: 0, type: 'multiple' },
+                    { text: "Câu 5: Gộp ô dùng để:", options: ["A. Xóa bảng", "B. Làm bảng to hơn", "C. Kết hợp nhiều ô thành một", "D. Tăng số hàng"], correct: 2, type: 'multiple' },
+                    { text: "Câu 6: Thay đổi độ rộng cột giúp:", options: ["A. Bảng cân đối", "B. Xóa dữ liệu", "C. In nhanh", "D. Mất chữ"], correct: 0, type: 'multiple' },
+                    { text: "Câu 7: Hộp thoại tìm kiếm gồm ô:", options: ["A. Find what", "B. Size", "C. Font", "D. Color"], correct: 0, type: 'multiple' },
+                    { text: "Câu 8: Replace All nghĩa là:", options: ["A. Thay từng chỗ", "B. Thay tất cả", "C. Xóa", "D. Lưu"], correct: 1, type: 'multiple' },
+                    { text: "Câu 9: Replace khác Find ở chỗ:", options: ["A. Không khác", "B. Một cái chỉ tìm, một cái vừa tìm vừa thay", "C. Cùng xóa", "D. Cùng in"], correct: 1, type: 'multiple' },
+                    { text: "Câu 10: Muốn tạo bảng danh sách dùng:", options: ["A. Insert Table", "B. Font", "C. Color", "D. Find"], correct: 0, type: 'multiple' },
+                    { text: "Câu 11: Tiêu đề không nên:", options: ["A. Nổi bật", "B. Rõ ràng", "C. Quá nhỏ", "D. Căn giữa"], correct: 2, type: 'multiple' },
+                    { text: "Câu 12: Muốn tiêu đề nổi bật:", options: ["A. Tăng size + in đậm", "B. Giảm size", "C. Xóa", "D. Căn phải"], correct: 0, type: 'multiple' },
+                    
+                    // Phần II - Đúng/Sai (Câu 13-20)
+                    { text: "Câu 13: Sơ đồ tư duy có cấu trúc trình bày theo dạng bảng.", options: ["A. Đúng", "B. Sai"], correct: 1, type: 'tf' },
+                    { text: "Câu 14: Căn lề là thao tác định dạng kí tự.", options: ["A. Đúng", "B. Sai"], correct: 1, type: 'tf' },
+                    { text: "Câu 15: Nếu văn bản chưa thẳng hàng hai bên, có thể dùng lệnh căn đều hai lề.", options: ["A. Đúng", "B. Sai"], correct: 0, type: 'tf' },
+                    { text: "Câu 16: Gộp ô là kết hợp nhiều ô thành một ô.", options: ["A. Đúng", "B. Sai"], correct: 0, type: 'tf' },
+                    { text: "Câu 17: Gộp ô tiêu đề có thể làm bảng dễ nhìn hơn.", options: ["A. Đúng", "B. Sai"], correct: 0, type: 'tf' },
+                    { text: "Câu 18: Replace All dùng để thay tất cả các kết quả tìm được.", options: ["A. Đúng", "B. Sai"], correct: 0, type: 'tf' },
+                    { text: "Câu 19: Không thể dùng bảng trong sổ lưu niệm.", options: ["A. Đúng", "B. Sai"], correct: 1, type: 'tf' },
+                    { text: "Câu 20: Muốn trang cân đối hơn có thể điều chỉnh căn lề.", options: ["A. Đúng", "B. Sai"], correct: 0, type: 'tf' },
+                    
+                    // Phần III - Điền khuyết (Câu 21-24)
+                    { text: "Câu 21: Nội dung trên các nhánh nên viết dưới dạng ................ ngắn gọn", correct: "từ khóa", type: 'fill' },
+                    { text: "Câu 22: Muốn đổi màu chữ cho một từ, em cần chọn từ đó rồi chọn ................ chữ.", correct: "màu", type: 'fill' },
+                    { text: "Câu 23: Bảng giúp người đọc dễ dàng quan sát và ................ thông tin.", correct: "so sánh", type: 'fill' },
+                    { text: "Câu 24: Có thể sử dụng ................ để trình bày danh sách trong sổ lưu niệm.", correct: "bảng", type: 'fill' }
+                ]
+            },
+            // ĐỀ 5
+            {
+                questions: [
+                    // Phần I - Chọn đáp án đúng nhất (Câu 1-12)
+                    { text: "Câu 1: Màu sắc trong sơ đồ tư duy giúp:", options: ["A. Tăng dung lượng file", "B. Trang trí cho đẹp", "C. Phân biệt và ghi nhớ tốt hơn", "D. In nhanh hơn"], correct: 2, type: 'multiple' },
+                    { text: "Câu 2: In nghiêng dùng nút:", options: ["A. B", "B. U", "C. I", "D. F"], correct: 2, type: 'multiple' },
+                    { text: "Câu 3: Căn lề đều hai bên giúp:", options: ["A. Văn bản lộn xộn", "B. Văn bản thẳng hàng, gọn gàng", "C. Tăng số dòng", "D. Xóa khoảng trắng"], correct: 1, type: 'multiple' },
+                    { text: "Câu 4: Muốn đổi màu chữ, em:", options: ["A. Chọn văn bản → chọn màu", "B. Chọn lề", "C. Chọn size", "D. Gõ lại"], correct: 0, type: 'multiple' },
+                    { text: "Câu 5: Bảng giúp:", options: ["A. Trang trí", "B. So sánh thông tin", "C. Tăng dung lượng", "D. Xóa dữ liệu"], correct: 1, type: 'multiple' },
+                    { text: "Câu 6: Không nên dùng bảng khi:", options: ["A. Có nhiều số liệu", "B. Cần so sánh", "C. Chỉ có một câu ngắn", "D. Có nhiều cột"], correct: 2, type: 'multiple' },
+                    { text: "Câu 7: Tìm kiếm giúp:", options: ["A. Nhanh hơn", "B. Chậm hơn", "C. Xóa chữ", "D. In"], correct: 0, type: 'multiple' },
+                    { text: "Câu 8: Thay thế sai có thể:", options: ["A. Mất dữ liệu", "B. Đẹp hơn", "C. Không sao", "D. Tăng size"], correct: 0, type: 'multiple' },
+                    { text: "Câu 9: Khi cần sửa tên riêng nhiều lần nên:", options: ["A. Gõ lại từng chỗ", "B. Dùng Replace", "C. In", "D. Xóa"], correct: 1, type: 'multiple' },
+                    { text: "Câu 10: Định dạng đồng bộ giúp:", options: ["A. Lộn xộn", "B. Thống nhất", "C. Sai nội dung", "D. Mất chữ"], correct: 1, type: 'multiple' },
+                    { text: "Câu 11: Trang lưu niệm cần:", options: ["A. Bố cục hợp lí", "B. Lệch", "C. Không tiêu đề", "D. Không nội dung"], correct: 0, type: 'multiple' },
+                    { text: "Câu 12: Trang chưa cân đối cần:", options: ["A. Căn chỉnh lại", "B. Xóa", "C. In", "D. Tìm"], correct: 0, type: 'multiple' },
+                    
+                    // Phần II - Đúng/Sai (Câu 13-20)
+                    { text: "Câu 13: Hình ảnh minh họa giúp tăng khả năng ghi nhớ nội dung.", options: ["A. Đúng", "B. Sai"], correct: 0, type: 'tf' },
+                    { text: "Câu 14: Có thể thay đổi màu chữ trong văn bản.", options: ["A. Đúng", "B. Sai"], correct: 0, type: 'tf' },
+                    { text: "Câu 15: Có thể thay đổi font chữ cho toàn bộ văn bản bằng cách chọn toàn bộ nội dung trước.", options: ["A. Đúng", "B. Sai"], correct: 0, type: 'tf' },
+                    { text: "Câu 16: Hàng được sắp xếp theo chiều ngang.", options: ["A. Đúng", "B. Sai"], correct: 0, type: 'tf' },
+                    { text: "Câu 17: Không cần căn chỉnh bảng vì nội dung tự động cân đối.", options: ["A. Đúng", "B. Sai"], correct: 1, type: 'tf' },
+                    { text: "Câu 18: Lệnh Find không thể tìm cụm từ nhiều chữ", options: ["A. Đúng", "B. Sai"], correct: 1, type: 'tf' },
+                    { text: "Câu 19: Tiêu đề nên được trình bày nổi bật.", options: ["A. Đúng", "B. Sai"], correct: 0, type: 'tf' },
+                    { text: "Câu 20: Sau khi hoàn thành nội dung, không cần xem lại toàn bộ trang", options: ["A. Đúng", "B. Sai"], correct: 1, type: 'tf' },
+                    
+                    // Phần III - Điền khuyết (Câu 21-24)
+                    { text: "Câu 21: Việc sử dụng nhiều ................ giúp phân biệt các nhánh trong sơ đồ tư duy.", correct: "màu sắc", type: 'fill' },
+                    { text: "Câu 22: Để căn giữa tiêu đề, em chọn dòng tiêu đề và nhấn nút ................ .", correct: "căn giữa", type: 'fill' },
+                    { text: "Câu 23: Nếu chỉ có một câu văn ngắn, trình bày bằng ................ có thể không cần thiết.", correct: "bảng", type: 'fill' },
+                    { text: "Câu 24: Tiêu đề trang lưu niệm nên được trình bày ................ để gây ấn tượng.", correct: "nổi bật", type: 'fill' }
+                ]
+            },
+            // ĐỀ 6
+            {
+                questions: [
+                    // Phần I - Chọn đáp án đúng nhất (Câu 1-12)
+                    { text: "Câu 1: Sơ đồ tư duy có cấu trúc dạng:", options: ["A. Tuyến tính", "B. Dạng bảng", "C. Tỏa nhánh", "D. Hình tròn"], correct: 2, type: 'multiple' },
+                    { text: "Câu 2: Định dạng đoạn gồm thao tác:", options: ["A. Đổi màu chữ", "B. Căn lề", "C. In đậm", "D. Đổi font"], correct: 1, type: 'multiple' },
+                    { text: "Câu 3: Khi thay đổi cỡ chữ quá lớn sẽ:", options: ["A. Văn bản khó đọc", "B. Tăng tính thẩm mỹ", "C. In nhanh hơn", "D. Không ảnh hưởng"], correct: 0, type: 'multiple' },
+                    { text: "Câu 4: Văn bản chưa thẳng hàng hai bên, cần dùng:", options: ["A. Căn trái", "B. Căn phải", "C. Căn giữa", "D. Căn đều"], correct: 3, type: 'multiple' },
+                    { text: "Câu 5: Hàng nằm theo chiều:", options: ["A. Dọc", "B. Ngang", "C. Chéo", "D. Tròn"], correct: 1, type: 'multiple' },
+                    { text: "Câu 6: Bảng phù hợp khi thông tin:", options: ["A. Cần phân loại", "B. Không liên quan", "C. Rất ngắn", "D. Không cần rõ ràng"], correct: 0, type: 'multiple' },
+                    { text: "Câu 7: Find không thể:", options: ["A. Tìm từ", "B. Tìm cụm từ", "C. Tìm ký tự", "D. Vẽ hình"], correct: 3, type: 'multiple' },
+                    { text: "Câu 8: Replace thường dùng khi:", options: ["A. Soạn mới", "B. Sửa lỗi lặp lại", "C. Trang trí", "D. Gộp ô"], correct: 1, type: 'multiple' },
+                    { text: "Câu 9: Find chỉ giúp:", options: ["A. Thay", "B. Tìm", "C. Xóa", "D. Gộp"], correct: 1, type: 'multiple' },
+                    { text: "Câu 10: Trang lưu niệm nên trình bày:", options: ["A. Cân đối", "B. Rối", "C. Ngẫu nhiên", "D. Lệch"], correct: 0, type: 'multiple' },
+                    { text: "Câu 11: Trình bày thống nhất giúp:", options: ["A. Dễ đọc", "B. Khó đọc", "C. Sai", "D. Tốn giấy"], correct: 0, type: 'multiple' },
+                    { text: "Câu 12: Hoàn thiện sản phẩm cần:", options: ["A. Kiểm tra lại toàn bộ", "B. In ngay", "C. Đóng", "D. Xóa"], correct: 0, type: 'multiple' },
+                    
+                    // Phần II - Đúng/Sai (Câu 13-20)
+                    { text: "Câu 13: Sơ đồ tư duy chỉ phù hợp để ghi chép môn Mỹ thuật.", options: ["A. Đúng", "B. Sai"], correct: 1, type: 'tf' },
+                    { text: "Câu 14: In nghiêng làm chữ nghiêng về một phía", options: ["A. Đúng", "B. Sai"], correct: 0, type: 'tf' },
+                    { text: "Câu 15: Nhấn Enter nhiều lần là cách đúng để căn giữa tiêu đề.", options: ["A. Đúng", "B. Sai"], correct: 1, type: 'tf' },
+                    { text: "Câu 16: Bảng không thể chứa chữ và số cùng lúc.", options: ["A. Đúng", "B. Sai"], correct: 1, type: 'tf' },
+                    { text: "Câu 17: Bảng giúp người đọc dễ quan sát và so sánh thông tin.", options: ["A. Đúng", "B. Sai"], correct: 0, type: 'tf' },
+                    { text: "Câu 18: Replace có thể giúp sửa một từ xuất hiện nhiều lần.", options: ["A. Đúng", "B. Sai"], correct: 0, type: 'tf' },
+                    { text: "Câu 19: Trang lưu niệm không cần bố cục rõ ràng", options: ["A. Đúng", "B. Sai"], correct: 1, type: 'tf' },
+                    { text: "Câu 20: Có thể dùng Replace để sửa nhanh lỗi lặp lại nhiều lần.", options: ["A. Đúng", "B. Sai"], correct: 0, type: 'tf' },
+                    
+                    // Phần III - Điền khuyết (Câu 21-24)
+                    { text: "Câu 21: Cấu trúc của sơ đồ tư duy thường trình bày theo dạng ................ nhánh", correct: "tỏa", type: 'fill' },
+                    { text: "Câu 22: Nếu muốn thay đổi kiểu chữ cho toàn bộ văn bản, em có thể nhấn tổ hợp phím Ctrl + ................ để chọn tất cả.", correct: "A", type: 'fill' },
+                    { text: "Câu 23: Việc căn chỉnh bảng hợp lí giúp nội dung trở nên ................ hơn.", correct: "rõ ràng", type: 'fill' },
+                    { text: "Câu 24: Trước khi in sản phẩm, cần kiểm tra lại lỗi chính tả và ................ .", correct: "định dạng", type: 'fill' }
+                ]
+            }
+        ];
+
+        let currentExam = 0;
+        let userAnswers = {};
+        let submitted = false;
+
+        function loadExam(examIndex) {
+            currentExam = examIndex;
+            userAnswers = {};
+            submitted = false;
+            renderQuestions();
+            updateStats();
+            document.getElementById('resultPanel').classList.add('hidden');
+            document.getElementById('answersPanel').classList.add('hidden');
+        }
+
+        function renderQuestions() {
+            const container = document.getElementById('questionsContainer');
+            const exam = examData[currentExam];
+            let html = '';
+
+            // Phần I: Chọn đáp án đúng nhất (Câu 1-12)
+            html += '<div class="section-title">Phần I -- Chọn đáp án đúng nhất</div>';
+            for (let i = 0; i < 12; i++) {
+                html += renderQuestion(i, exam.questions[i]);
+            }
+
+            // Phần II: Đúng/Sai (Câu 13-20)
+            html += '<div class="section-title">Phần II -- Đúng/Sai</div>';
+            for (let i = 12; i < 20; i++) {
+                html += renderQuestion(i, exam.questions[i]);
+            }
+
+            // Phần III: Điền khuyết (Câu 21-24)
+            html += '<div class="section-title">Phần III -- Điền khuyết</div>';
+            for (let i = 20; i < 24; i++) {
+                html += renderQuestion(i, exam.questions[i]);
+            }
+
+            container.innerHTML = html;
+        }
+
+        function renderQuestion(index, question) {
+            let answer = userAnswers[index] || '';
+            
+            if (question.type === 'multiple') {
+                return `
+                    <div class="question-item" id="q-${index}">
+                        <div class="question-text">${question.text}</div>
+                        <div class="options">
+                            ${question.options.map((opt, optIndex) => `
+                                <label class="option ${answer == optIndex ? 'selected' : ''}">
+                                    <input type="radio" name="q-${index}" value="${optIndex}" 
+                                        ${answer == optIndex ? 'checked' : ''} 
+                                        onchange="saveAnswer(${index}, ${optIndex})">
+                                    ${opt}
+                                </label>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            } else if (question.type === 'tf') {
+                return `
+                    <div class="question-item" id="q-${index}">
+                        <div class="question-text">${question.text}</div>
+                        <div class="true-false-options">
+                            ${question.options.map((opt, optIndex) => `
+                                <label class="option tf-option ${answer == optIndex ? 'selected' : ''}">
+                                    <input type="radio" name="q-${index}" value="${optIndex}" 
+                                        ${answer == optIndex ? 'checked' : ''} 
+                                        onchange="saveAnswer(${index}, ${optIndex})">
+                                    ${opt}
+                                </label>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            } else {
+                return `
+                    <div class="question-item" id="q-${index}">
+                        <div class="question-text">${question.text}</div>
+                        <input type="text" class="fill-input" 
+                            value="${answer}" 
+                            onchange="saveAnswer(${index}, this.value)"
+                            placeholder="Nhập đáp án của bạn...">
+                    </div>
+                `;
+            }
+        }
+
+        function saveAnswer(index, value) {
+            userAnswers[index] = value;
+            updateStats();
+            
+            if (typeof value === 'number') {
+                const radios = document.getElementsByName(`q-${index}`);
+                radios.forEach((radio, i) => {
+                    const label = radio.closest('.option');
+                    if (label) {
+                        if (i == value) {
+                            label.classList.add('selected');
+                        } else {
+                            label.classList.remove('selected');
+                        }
+                    }
+                });
+            }
+        }
+
+        function updateStats() {
+            const answered = Object.keys(userAnswers).length;
+            document.getElementById('answeredCount').textContent = answered;
+            document.getElementById('remainingCount').textContent = 24 - answered;
+        }
+
+        function submitExam() {
+            const exam = examData[currentExam];
+            let correct = 0;
+            let wrong = 0;
+            let unanswered = 0;
+
+            for (let i = 0; i < 24; i++) {
+                const question = exam.questions[i];
+                const userAnswer = userAnswers[i];
+                
+                if (userAnswer === undefined || userAnswer === '') {
+                    unanswered++;
+                } else {
+                    let isCorrect = false;
+                    if (question.type === 'fill') {
+                        isCorrect = userAnswer.toString().toLowerCase().trim() === question.correct.toLowerCase().trim();
+                    } else {
+                        isCorrect = parseInt(userAnswer) === question.correct;
+                    }
+                    
+                    if (isCorrect) {
+                        correct++;
+                    } else {
+                        wrong++;
+                    }
+                }
+            }
+
+            document.getElementById('score').textContent = `${correct}/24`;
+            document.getElementById('correctCount').textContent = correct;
+            document.getElementById('wrongCount').textContent = wrong;
+            document.getElementById('unansweredCount').textContent = unanswered;
+            
+            document.getElementById('resultPanel').classList.remove('hidden');
+            submitted = true;
+        }
+
+        function showAnswers() {
+            if (!submitted) {
+                alert('Vui lòng nộp bài trước khi xem đáp án!');
+                return;
+            }
+
+            const exam = examData[currentExam];
+            const answersPanel = document.getElementById('answersPanel');
+            let html = '<div class="section-title">ĐÁP ÁN CHI TIẾT</div>';
+
+            for (let i = 0; i < 24; i++) {
+                const question = exam.questions[i];
+                const userAnswer = userAnswers[i];
+                let isCorrect = false;
+                let correctAnswer = '';
+                let userAnswerText = 'Chưa làm';
+
+                if (question.type === 'fill') {
+                    correctAnswer = question.correct;
+                    if (userAnswer !== undefined && userAnswer !== '') {
+                        userAnswerText = userAnswer;
+                        isCorrect = userAnswer.toString().toLowerCase().trim() === question.correct.toLowerCase().trim();
+                    }
+                } else {
+                    correctAnswer = question.options[question.correct];
+                    if (userAnswer !== undefined) {
+                        userAnswerText = question.options[parseInt(userAnswer)];
+                        isCorrect = parseInt(userAnswer) === question.correct;
+                    }
+                }
+
+                html += `
+                    <div class="answer-item ${userAnswer !== undefined && !isCorrect ? 'incorrect' : ''}">
+                        <div class="answer-header">
+                            <span>Câu ${i + 1}</span>
+                            <span>${userAnswer === undefined || userAnswer === '' ? 'Chưa làm' : (isCorrect ? 'Đúng' : 'Sai')}</span>
+                        </div>
+                        <div class="user-answer">Câu trả lời của bạn: ${userAnswerText}</div>
+                        <div class="correct-answer">Đáp án đúng: ${correctAnswer}</div>
+                    </div>
+                `;
+            }
+
+            answersPanel.innerHTML = html;
+            answersPanel.classList.remove('hidden');
+        }
+
+        function resetExam() {
+            if (confirm('Bạn có chắc muốn làm lại bài thi này?')) {
+                userAnswers = {};
+                submitted = false;
+                renderQuestions();
+                updateStats();
+                document.getElementById('resultPanel').classList.add('hidden');
+                document.getElementById('answersPanel').classList.add('hidden');
+            }
+        }
+
+        function clearAll() {
+            if (confirm('Bạn có chắc muốn xóa hết câu trả lời?')) {
+                userAnswers = {};
+                renderQuestions();
+                updateStats();
+            }
+        }
+
+        document.getElementById('examSelect').addEventListener('change', (e) => {
+            loadExam(parseInt(e.target.value));
+        });
+
+        loadExam(0);
+    </script>
+</body>
+</html>
